@@ -1,4 +1,4 @@
-/*import javax.imageio.ImageIO;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -58,4 +58,4 @@ public class WordGUI implements ActionListener
 
     }
 }
- */
+
