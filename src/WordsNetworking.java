@@ -16,7 +16,7 @@ public class WordsNetworking {
         url = "https://wordsapiv1.p.rapidapi.com/words/";
     }
 
-    public String makeApiCallForWord(String word)
+    private String makeApiCallForWord(String word)
     {
         try {
             HttpRequest request = HttpRequest.newBuilder()
