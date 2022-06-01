@@ -43,5 +43,4 @@ public class WordsNetworking {
         String partOfSpeech = array0.getString("partOfSpeech");
         return definition + " " + partOfSpeech;
     }
-
 }

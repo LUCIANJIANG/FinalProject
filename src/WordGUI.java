@@ -26,12 +26,13 @@ public class WordGUI implements ActionListener
 
     public WordGUI()
     {
-        middleFrame = new JTextArea(20, 35);
+        middleFrame = new JTextArea(10, 25);
+        middleFrame.setEditable(false);
+        middleFrame.setOpaque(false);
         wordEntryField = new JTextField();
         wordDef = new JTextArea();
 
         setupGUI();
-
     }
 
     private void setupGUI()
@@ -52,7 +53,7 @@ public class WordGUI implements ActionListener
         logoWelcomePanel.add(welcomeLabel);
 
         JPanel wordMainPanel = new JPanel();
-        middleFrame.setText("Welcome to Word Search!");
+        middleFrame.setText("               Welcome to Word Search!");
         middleFrame.setFont(new Font("Helvetica", Font.PLAIN, 24));
         middleFrame.setWrapStyleWord(true);
         middleFrame.setLineWrap(true);
@@ -63,19 +64,23 @@ public class WordGUI implements ActionListener
         wordEntryField = new JTextField(10);
         JButton searchButton = new JButton("Search");
         JButton resetButton = new JButton("Reset");
-        JButton nextButton = new JButton("Next");
+        JButton nextDefinitionButton = new JButton("Next Definition");
+        JButton nextExampleButton = new JButton("Next Example");
         entryPanel.add(wordLabel);
         entryPanel.add(wordEntryField);
         entryPanel.add(searchButton);
         entryPanel.add(resetButton);
-        entryPanel.add(nextButton);
+        entryPanel.add(nextDefinitionButton);
+        entryPanel.add(nextExampleButton);
 
         frame.add(logoWelcomePanel, BorderLayout.NORTH);
         frame.add(entryPanel, BorderLayout.SOUTH);
+        frame.add(wordMainPanel, BorderLayout.CENTER);
 
         searchButton.addActionListener(this);
         resetButton.addActionListener(this);
-        nextButton.addActionListener(this);
+        nextDefinitionButton.addActionListener(this);
+        nextExampleButton.addActionListener(this);
 
         frame.pack();
         frame.setVisible(true);
@@ -83,10 +88,10 @@ public class WordGUI implements ActionListener
 
     private void loadWordInfo(Current word)
     {
-        Current w = client.
-        String info = "Word: " + word.getWord(); +
-                "\nDefinition: " + word.getDefinition() +
-                "\nExamples: " + word.getExample();
+        Current w = client.getCurrent();
+        String info = "Word: " + w.getWord() +
+                "\nDefinition: " + w.getDefinition() +
+                "\nExamples: " + w.getExample();
         middleFrame.setText(info);
     }
 
@@ -96,7 +101,14 @@ public class WordGUI implements ActionListener
         String text = button.getText();
         if (text.equals("Search"))
         {
-
+            if (!isRunning)
+            {
+                String input = wordEntryField.getText();
+                String json = client.makeApiCallForWord(input);
+                client.parseInfo(json);
+                isRunning = true;
+                loadWordInfo();
+            }
         }
         else if(text.equals("Next"))
         {
@@ -105,7 +117,7 @@ public class WordGUI implements ActionListener
         else if (text.equals("Reset"))
         {
             wordEntryField.setText("");
-
+            isRunning = false;
         }
     }
 }
