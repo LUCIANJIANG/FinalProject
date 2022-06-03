@@ -98,8 +98,10 @@ public class WordGUI implements ActionListener
     {
         Current w = client.getCurrent();
         String info = "Word: " + w.getWord() +
-                "\nDefinition: " + w.getDefinition() +
-                "\nExamples: " + w.getExample();
+                "\n\nDefinition: " + w.getDefinition() +
+                "\n\nExamples: " + w.getExample() +
+                "\n\nPart of Speech: " + w.getPartOfSpeech() +
+                "\n\nSynonyms: " + w.getSynonyms();
         middleFrame.setText(info);
     }
 
@@ -129,6 +131,7 @@ public class WordGUI implements ActionListener
                 String json = client.makeApiCallForWord(input);
                 client.parseInfo(json, definitionChoice);
                 definitionChoice++;
+                loadWordInfo();
             }
         }
         else if(text.equals("Next Example"))
