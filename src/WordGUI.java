@@ -23,6 +23,10 @@ public class WordGUI implements ActionListener
     private JTextField wordEntryField;
     private JTextArea wordDef;
     private WordsNetworking client;
+    private boolean isRunning;
+    private int exampleChoice;
+    private int definitionChoice;
+    private String input;
 
     public WordGUI()
     {
@@ -31,7 +35,11 @@ public class WordGUI implements ActionListener
         middleFrame.setOpaque(false);
         wordEntryField = new JTextField();
         wordDef = new JTextArea();
-
+        client = new WordsNetworking();
+        isRunning = false;
+        exampleChoice = 0;
+        definitionChoice = 0;
+        input = "";
         setupGUI();
     }
 
@@ -86,7 +94,7 @@ public class WordGUI implements ActionListener
         frame.setVisible(true);
     }
 
-    private void loadWordInfo(Current word)
+    private void loadWordInfo()
     {
         Current w = client.getCurrent();
         String info = "Word: " + w.getWord() +
@@ -103,20 +111,46 @@ public class WordGUI implements ActionListener
         {
             if (!isRunning)
             {
-                String input = wordEntryField.getText();
+                input = wordEntryField.getText();
                 String json = client.makeApiCallForWord(input);
                 client.parseInfo(json);
                 isRunning = true;
                 loadWordInfo();
             }
         }
-        else if(text.equals("Next"))
+        else if(text.equals("Next Definition"))
         {
+            if(isRunning && client.getLengthOfResults() > 0)
+            {
+                int max = client.getLengthOfResults();
+                if (definitionChoice >= max) {
+                  definitionChoice = 0;
+                }
+                String json = client.makeApiCallForWord(input);
+                client.parseInfo(json, definitionChoice);
+                definitionChoice++;
+            }
+        }
+        else if(text.equals("Next Example"))
+        {
+            if(isRunning && client.getLengthOfExamples() > 0)
+            {
+                int max = client.getLengthOfExamples();
+                if (exampleChoice >= max) {
+                    exampleChoice = 0;
+                }
+                client.parseExamples(exampleChoice);
+                exampleChoice++;
 
+            }
         }
         else if (text.equals("Reset"))
         {
             wordEntryField.setText("");
+            middleFrame.setText("               Welcome to Word Search!");
+            middleFrame.setFont(new Font("Helvetica", Font.PLAIN, 24));
+            middleFrame.setWrapStyleWord(true);
+            middleFrame.setLineWrap(true);
             isRunning = false;
         }
     }
