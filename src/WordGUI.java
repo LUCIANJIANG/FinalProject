@@ -47,21 +47,16 @@ public class WordGUI implements ActionListener
     {
         JFrame frame = new JFrame("Dictionary");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        ImageIcon image = new ImageIcon("");
-//        Image imageData = new image.getImage();
-//        Image scaledImage = imageData.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
-//        image = new ImageIcon(scaledImage);
-//        JLabel pictureLabel = new JLabel(image);
+
         JLabel welcomeLabel = new JLabel("   DICTIONARY");
         welcomeLabel.setFont(new Font("Helvetica", Font.BOLD, 20));
         welcomeLabel.setForeground(Color.blue);
 
         JPanel logoWelcomePanel = new JPanel();
-//        logoWelcomePanel.add(pictureLabel);
         logoWelcomePanel.add(welcomeLabel);
 
         JPanel wordMainPanel = new JPanel();
-        middleFrame.setText("               Welcome to Word Search!");
+        middleFrame.setText("               Welcome To WordSearch!");
         middleFrame.setFont(new Font("Helvetica", Font.PLAIN, 24));
         middleFrame.setWrapStyleWord(true);
         middleFrame.setLineWrap(true);
